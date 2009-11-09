@@ -1,0 +1,30 @@
+<h2>$project.Name > History</h2>
+
+#parse ("Projects/historyFilters.vm")
+
+$PageLinksHelper.Show($historysteps)
+
+#if($historysteps.TotalItems > 0)
+	<table class="clear">
+		<tbody>
+			<tr>
+				<th>$OrderHelper.OrderLink("At")</th>
+				<th>$OrderHelper.OrderLink("By")</th>
+				<th>$OrderHelper.OrderLink("Description")</th>
+			</tr>
+			#foreach($step in $historysteps)
+				<tr class="line offline">
+					<td class="nowrap">
+						$DateFormat.ToShortDateTime($step.At)
+					</td>
+					<td class="nowrap">
+						$step.By
+					</td>
+					<td class="maximal">
+						$step.Description
+					</td>
+				</tr>
+			#end
+		</tbody>
+	</table>
+#end

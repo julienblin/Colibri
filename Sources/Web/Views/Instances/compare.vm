@@ -1,0 +1,80 @@
+<h2>$currentproject.Name > Instances > Comparison results</h2>
+
+#if(($notInInstance1.Length == 0) && ($notInInstance2.Length == 0))
+	<h3>$instance1.FullName and $instance2.FullName are identicals.</h3>
+#else
+	<div class="two-cols">
+		<div class="col">
+			<h2><strong>Not found</strong> in $instance1.FullName</h2>
+			#if($notInInstance1.Length > 0)
+				<table class="clear">
+					<tbody>
+						<tr>
+							<th>Action</th>
+							<th>Migration Id</th>
+							<th>At</th>
+							<th>By</th>
+						</tr>
+						#foreach($appliedMig in $notInInstance1)
+							<tr class="line offline">
+								<td class="nowrap">
+									$Form.FormTag("%{controller='migrations', action='execute', onclick='return confirm(\'Are you sure you want to apply migration to $instance1.FullName ?\');'}")
+										$FormHelper.HiddenField("migrationId", $appliedMig.MigrationId)
+										$FormHelper.HiddenField("instanceId", $instance1.Id)
+										$FormHelper.HiddenField("action", "Apply")
+										$Form.Submit("Apply!")
+									$Form.EndFormTag()
+								</td>
+								<td class="nowrap align-middle">
+									<a href="/migrations/show.colibri?id=$appliedMig.MigrationId">&nbsp;$appliedMig.MigrationId&nbsp;</a>
+								</td>
+								<td class="nowrap align-middle">
+									$DateFormat.ToShortDateTime($appliedMig.At)
+								</td>
+								<td class="nowrap align-middle">
+									$appliedMig.By
+								</td>
+							</tr>
+						#end
+					</tbody>
+				</table>
+			#end
+		</div>
+		<div class="col">
+			<h2><strong>Not found</strong> in $instance2.FullName</h2>
+			#if($notInInstance2.Length > 0)
+				<table class="clear">
+					<tbody>
+						<tr>
+							<th>Action</th>
+							<th>Migration Id</th>
+							<th>At</th>
+							<th>By</th>
+						</tr>
+						#foreach($appliedMig in $notInInstance2)
+							<tr class="line offline">
+								<td class="nowrap">
+									$Form.FormTag("%{controller='migrations', action='execute', onclick='return confirm(\'Are you sure you want to apply migration to $instance2.FullName ?\');'}")
+										$FormHelper.HiddenField("migrationId", $appliedMig.MigrationId)
+										$FormHelper.HiddenField("instanceId", $instance2.Id)
+										$FormHelper.HiddenField("action", "Apply")
+										$Form.Submit("Apply!")
+									$Form.EndFormTag()
+								</td>
+								<td class="nowrap align-middle">
+									<a href="/migrations/show.colibri?id=$appliedMig.MigrationId">$appliedMig.MigrationId</a>
+								</td>
+								<td class="nowrap align-middle">
+									$DateFormat.ToShortDateTime($appliedMig.At)
+								</td>
+								<td class="nowrap align-middle">
+									$appliedMig.By
+								</td>
+							</tr>
+						#end
+					</tbody>
+				</table>
+			#end
+		</div>
+	</div>
+#end

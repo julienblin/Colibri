@@ -1,0 +1,13 @@
+#parse('shared/messages.vm')
+
+<h3>Migrate script</h3>
+<pre class="brush: sql">
+$line.MigrateScript
+</pre>
+
+#if($line.RollbackScript)
+<h3>Rollback script</h3>
+<pre class="brush: sql">
+	$line.RollbackScript
+</pre>
+#end

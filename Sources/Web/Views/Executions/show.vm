@@ -1,0 +1,11 @@
+<h2>$currentproject.Name > Executions > $execution.Id</h2>
+
+<h3>At $DateFormatHelper.ToShortDateTime($execution.At)</h3>
+<h3>By $execution.By</h3>
+<h3>From $execution.Migration.Id - $execution.Migration.Description</h3>
+<h3>On $execution.Instance.FullName</h3>
+<h3>$execution.ExecutionState</h3>
+
+<p id='execution-log'>
+	$FormatHelper.ConvertNewLines($execution.ExecutionLog)
+</p>

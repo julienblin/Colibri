@@ -1,0 +1,44 @@
+<h2>$currentproject.Name > Instances > $instance.FullName</h2>
+#if($displayType)
+	<h3>[$instance.InstanceType]</h3>
+#end
+
+$PageLinksHelper.Show($appliedMigrations)
+
+#if($appliedMigrations.TotalItems > 0)
+	<table class="clear">
+		<tbody>
+			<tr>
+				<th>Action</th>
+				<th>Id</th>
+				<th>At</th>
+				<th>By</th>
+				<th>MigrationId</th>
+			</tr>
+			#foreach($migration in $appliedMigrations)
+				<tr class="line offline">
+					<td class="nowrap">
+						$Form.FormTag("%{controller='migrations', action='execute', onclick='return confirm(\'Are you sure you want to rollback migration $migration.MigrationId ?\');'}")
+							$FormHelper.HiddenField("migrationId", $migration.MigrationId)
+							$FormHelper.HiddenField("instanceId", $instance.Id)
+							$FormHelper.HiddenField("action", "Rollback")
+							$Form.Submit("Rollback!")
+						$Form.EndFormTag()
+					</td>
+					<td class="nowrap">
+						$migration.Id
+					</td>
+					<td class="nowrap">
+						$DateFormatHelper.ToShortDateTime($migration.At)
+					</td>
+					<td class="nowrap">
+						$migration.By
+					</td>
+					<td class="maximal">
+						<a href="/migrations/show.colibri?id=$migration.MigrationId">$migration.MigrationId</a>
+					</td>
+				</tr>
+			#end
+		</tbody>
+	</table>
+#end

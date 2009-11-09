@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Colibri - $version</title>
+    <link href="/Content/css/colibri.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/Content/css/datepicker.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/Content/css/shCore.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/Content/css/shThemeDefault.css" media="screen" rel="stylesheet" type="text/css" />
+    
+    <script src="/Content/javascripts/prototype.js" type="text/javascript"></script>
+    <script src="/Content/javascripts/scriptaculous.js" type="text/javascript"></script>
+    $FormHelper.InstallScripts()
+    <script src="/Content/javascripts/prototype-extensions.js" type="text/javascript"></script>
+    <script src="/Content/javascripts/datepicker.js" type="text/javascript"></script>
+    <script src="/Content/javascripts/highlighter/shCore.js" type="text/javascript"></script>
+    <script src="/Content/javascripts/highlighter/shBrushSql.js" type="text/javascript"></script>
+    <script src="/Content/javascripts/colibri.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <div id='top'>
+      <h1>
+        <a href="$siteRoot">Colibri</a>
+      </h1>
+    </div>
+    <div id='info-box'>
+      #component(InfoBoxComponent)
+    </div>
+    <div id='wrapper'>
+      <div id='main'>
+        <div id='content'>
+			<div id="indicator" style="display: none;">
+			  <img src="/Content/images/indicator.gif" />
+			</div>
+			  #parse('shared/messages.vm')
+			  $childContent
+        </div>
+      </div>
+      <div id='main-menu'>
+        <div id='dashboard-menu'>
+          <ul>
+            <li class='active' style='background-image: url(/Content/images/dashboard.png);'>
+              <a href="/home/index.colibri">Dashboard</a>
+            </li>
+          </ul>
+        </div>
+        <div id='db-menu'>
+          <h3>
+            <img alt="Menu_off" src="/Content/images/menu_off.png" />
+            Databases
+          </h3>
+          <ul>
+            <li style='background-image: url(/Content/images/entries.png);'>
+              <a href="/migrations/index.colibri">Migrations</a>
+            </li>
+            <li style='background-image: url(/Content/images/comments.png);'>
+              <a href="/instances/index.colibri">Instances</a>
+            </li>
+            <li style='background-image: url(/Content/images/comparison.png);'>
+              <a href="/instances/selectcompare.colibri">Compare</a>
+            </li>
+            ##<li style='background-image: url(/Content/images/import.png);'>
+            ##  <a href="/">Automator</a>
+            ##</li>
+          </ul>
+          <h3>
+            <img alt="Menu_off" src="/Content/images/menu_off.png" />
+            Management
+          </h3>
+          <ul>
+            <li style='background-image: url(/Content/images/projects.png);'>
+              <a href="/projects/index.colibri">Projects</a>
+            </li>
+            <li style='background-image: url(/Content/images/executions.png);'>
+              <a href="/executions/index.colibri">Executions</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div id='footer'></div>
+    </div>
+    <script type='text/javascript'>
+		$('selectProjects').observe('change', function(event) {
+			window.location = '/home/changeproject.colibri?id=' + $('selectProjects').value + '&redirectTo=' + encodeURIComponent(window.location);
+		});
+		
+		Control.DatePicker.Locale['en_CA'] = {
+			dateTimeFormat: 'yyyy-MM-dd HH:mm',
+			dateFormat: 'yyyy-MM-dd',
+			firstWeekDay: 0,
+			weekend: [0,6],
+			language: 'en'
+		};
+		
+		if($$('.calendar-picker')) {
+			$$('.calendar-picker').each(function(ctrl, index) {
+				new Control.DatePicker(ctrl.id, {icon: '/Content/images/calendar.png', locale: 'en_CA'});
+			});
+		}
+		
+		$!javascript
+    </script>
+  </body>
+</html>

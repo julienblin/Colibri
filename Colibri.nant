@@ -1,0 +1,157 @@
+﻿<?xml version="1.0"?>
+<project name="Colibri" default="build" xmlns="http://nant.sf.net/schemas/nant.xsd">
+
+  <env-include />
+  <version />
+
+  <target name="dev-enable-sqlite" description="Copy the necessary dependencies to enable sqlite use in development">
+    <copy todir="Sources\Web\bin" overwrite="true">
+      <fileset basedir="Dependencies\SQLite.NET-0.21">
+        <include name="*.dll" />
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="build" description="Build the project">
+    <asminfo output="Sources\GlobalAssemblyInfo.cs" language="CSharp">
+      <imports>
+        <import namespace="System.Reflection" />
+        <import namespace="System.Runtime.CompilerServices" />
+        <import namespace="System.Runtime.InteropServices" />
+      </imports>
+      <attributes>
+        <attribute type="AssemblyConfigurationAttribute" value="" />
+        <attribute type="AssemblyCompanyAttribute" value="Cirque du Soleil Inc." />
+        <attribute type="AssemblyProductAttribute" value="CDS.Framework.Tools.Colibri" />
+        <attribute type="AssemblyCopyrightAttribute" value="Copyright CDS 2009" />
+        <attribute type="AssemblyTrademarkAttribute" value="" />
+        <attribute type="AssemblyCultureAttribute" value="" />
+
+        <attribute type="AssemblyVersionAttribute" value="${version}" />
+        <attribute type="AssemblyFileVersionAttribute" value="${version}" />
+      </attributes>
+    </asminfo>
+    
+    <msbuild project="Sources\CDS.Framework.Tools.Colibri.sln">
+      <property name="Configuration" value="Release"/>
+    </msbuild>
+
+    <aspnet-compile srcDir="Sources\Web" targetDir="Sources\PrecompiledWeb" updatable="false" fixedNames="true" />
+    <delete dir="Sources\PrecompiledWeb\obj" />
+  </target>
+
+  <target name="package" depends="build" description="Create .deploy package.">
+    <delete dir="Package" />
+    <mkdir dir="Package" />
+
+    <copy todir="Package\Web" includeemptydirs="false">
+      <fileset basedir="Sources\PrecompiledWeb">
+        <include name="*/**" />
+      </fileset>
+    </copy>
+    
+    <!-- Remove unecessary SQLITE dll leftover -->
+    <delete>
+      <fileset basedir="Package\Web\bin">
+        <include name="SQLite*.dll"/>
+      </fileset>
+    </delete>
+    
+    <create-package dir="Package" package="Colibri-${version}.deploy" />
+    <delete dir="Package" />
+  </target>
+
+  <target name="push-to-mtlmdvweb001" depends="package" description="Package and deploy to mtlmdvweb001 server.">
+    <copy file="Colibri-${version}.deploy" tofile="${nantconsole.delivery.dir}\Framework\Tools\Colibri\Dev\Colibri-${version}.deploy" />
+    <delete file="Colibri-${version}.deploy" />
+    <ask-user-credentials property-name="username" property-password="password" />
+    <remote-deploy machine="mtlmdvweb001.development.studio.cdsorg.net" username="${username}" password="${password}" package="${nantconsole.delivery.dir}\Framework\Tools\Colibri\Dev\Colibri-${version}.deploy"/>
+    <delete file="${nantconsole.delivery.dir}\Framework\Tools\Colibri\Dev\Colibri-${version}.deploy" />
+  </target>
+
+  <target name="push-to-mtlmtsweb001" depends="package" description="Package and deploy to mtlmtsweb001 server.">
+    <copy file="Colibri-${version}.deploy" tofile="${nantconsole.delivery.dir}\Framework\Tools\Colibri\Test\Colibri-${version}.deploy" />
+    <delete file="Colibri-${version}.deploy" />
+    <ask-user-credentials property-name="username" property-password="password" />
+    <remote-deploy machine="mtlmtsweb001.test.studio.cdsorg.net" username="${username}" password="${password}" package="${nantconsole.delivery.dir}\Framework\Tools\Colibri\Test\Colibri-${version}.deploy"/>
+    <delete file="${nantconsole.delivery.dir}\Framework\Tools\Colibri\Test\Colibri-${version}.deploy" />
+  </target>
+
+  <target name="release" depends="package" description="Everything needed to create a release, including packaging, svn and delivery dir.">
+    <svn-commit message="Release ${version}" />
+    <svn-copy uri="${svn::get-tags-uri-from-path()}/${version}" message="Release ${version}" />
+    <mkdir dir="${nantconsole.delivery.dir}\Framework\Tools\Colibri\${version}"/>
+    <copy file="Colibri-${version}.deploy" tofile="${nantconsole.delivery.dir}\Framework\Tools\Colibri\${version}\Colibri-${version}.deploy" />
+    <delete file="Colibri-${version}.deploy" />
+  </target>
+
+  <target name="install" description="Install the .deploy package.">
+    <iis-admin website="${colibri.website.name}" action="Stop" />
+    <iis-delete-website website="${colibri.website.name}" />
+    <iis-delete-apppool name="${colibri.apppool.name}" />
+
+    <copy todir="${colibri.website.path}" overwrite="true">
+      <fileset basedir="Web">
+        <include name="*/**"/>
+      </fileset>
+    </copy>
+    <copy file="version.txt" tofile="${colibri.website.path}\version.txt" overwrite="true" />
+
+    <!-- Changing connection string provider form development workstation to server -->
+    <xmlpoke file="${colibri.website.path}\Web.config" xpath="/configuration/castle/components/component[@id='ConnectionStringProvider']/@type" value="${colibri.components.connectionstringprovider}" />
+    <xmlpoke file="${colibri.website.path}\Web.config" xpath="/configuration/activerecord/config/add[@key='hibernate.connection.connection_string']/@value" value="${colibri.connectionstring.db}" />
+    
+    <mkdir dir="${colibri.website.logs.dir}" unless="${directory::exists(colibri.website.logs.dir)}"/>
+
+    <iis-create-apppool name="${colibri.apppool.name}">
+      <property name="AppPoolState" value="2" type="DWORD" />
+      <property name="AppPoolIdentityType" value="0" type="DWORD" />
+    </iis-create-apppool>
+
+    <add-access-rule dir="${colibri.website.logs.dir}" ntaccount="${iis::get-apppool-property(colibri.apppool.name, 'WAMUserName')}" rights="FullControl" propagation="InheritOnly" />
+    <add-access-rule dir="C:\WINDOWS\TEMP" ntaccount="${iis::get-apppool-property(colibri.apppool.name, 'WAMUserName')}" rights="FullControl" propagation="InheritOnly" inheritance="None" />
+
+    <iis-create-website website="${colibri.website.name}" path="${colibri.website.path}">
+      <bindings>
+        <entry value="${colibri.website.serverbinding}" />
+      </bindings>
+      <property name="ServerAutoStart" value="1" type="DWORD" />
+      <property name="AppFriendlyName" value="${colibri.website.name}" type="String" />
+      <property name="LogFileDirectory" value="${colibri.website.logs.dir}" type="String" />
+      <property name="LogFilePeriod" value="1" type="DWORD" />
+      <property name="LogFileLocaltimeRollover" value="1" type="DWORD" />
+      <vdir name="root">
+        <property name="AccessFlags" value="513" type="DWORD" />
+        <property name="AppFriendlyName" value="${colibri.website.name}" type="String" />
+        <property name="AppIsolated" value="2" type="DWORD" />
+        <property name="Path" value="${colibri.website.path}" type="String" />
+        <property name="AuthFlags" value="4" type="DWORD" />
+        <property name="DirBrowseFlags" value="1073741886" type="DWORD" />
+        <property name="ScriptMaps" type="MultiString">
+          <entry value=".asax,C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\aspnet_isapi.dll,5" />
+          <entry value=".ascx,C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\aspnet_isapi.dll,5" />
+          <entry value=".ashx,C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\aspnet_isapi.dll,1" />
+          <entry value=".asmx,C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\aspnet_isapi.dll,1" />
+          <entry value=".aspx,C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\aspnet_isapi.dll,1" />
+          <entry value=".axd,C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\aspnet_isapi.dll,1" />
+          <entry value=".config,C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\aspnet_isapi.dll,5" />
+          <entry value=".colibri,C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\aspnet_isapi.dll,1" />
+          <entry value=".vm,C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\aspnet_isapi.dll,5" />
+        </property>
+      </vdir>
+    </iis-create-website>
+
+    <iis-admin website="${colibri.website.name}" action="Start" />
+
+  </target>
+
+  <target name="uninstall" description="Uninstall the .deploy package.">
+    <iis-admin website="${colibri.website.name}" action="Stop" />
+    <iis-delete-website website="${colibri.website.name}" />
+    <iis-delete-apppool name="${colibri.apppool.name}" />
+
+    <delete dir="${colibri.install.dir}" />
+    
+  </target>
+
+</project>

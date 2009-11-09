@@ -1,0 +1,327 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{71EB6B6A-8D53-484F-B2E7-39E975183700}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CDS.Framework.Tools.Colibri.Web</RootNamespace>
+    <AssemblyName>CDS.Framework.Tools.Colibri.Web</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.ActiveRecord, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dependencies\Castle-net-2.0-release-2007-9-20\Castle.ActiveRecord.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Components.Binder, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dependencies\Castle-net-2.0-release-2007-9-20\Castle.Components.Binder.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Components.DictionaryAdapter, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dependencies\Castle-net-2.0-release-2007-9-20\Castle.Components.DictionaryAdapter.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Components.Validator, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dependencies\Castle-net-2.0-release-2007-9-20\Castle.Components.Validator.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dependencies\Castle-net-2.0-release-2007-9-20\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.DynamicProxy, Version=1.1.5.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dependencies\Castle-net-2.0-release-2007-9-20\Castle.DynamicProxy.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.MicroKernel, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dependencies\Castle-net-2.0-release-2007-9-20\Castle.MicroKernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.MonoRail.ActiveRecordSupport, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dependencies\Castle-net-2.0-release-2007-9-20\Castle.MonoRail.ActiveRecordSupport.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.MonoRail.Framework, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dependencies\Castle-net-2.0-release-2007-9-20\Castle.MonoRail.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.MonoRail.Framework.Views.NVelocity, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dependencies\Castle-net-2.0-release-2007-9-20\Castle.MonoRail.Framework.Views.NVelocity.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.MonoRail.WindsorExtension, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dependencies\Castle-net-2.0-release-2007-9-20\Castle.MonoRail.WindsorExtension.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dependencies\Castle-net-2.0-release-2007-9-20\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=1.0.0.3, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dependencies\Castle-net-2.0-release-2007-9-20\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dependencies\Castle-net-2.0-release-2007-9-20\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=1.2.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dependencies\Castle-net-2.0-release-2007-9-20\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NVelocity, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dependencies\Castle-net-2.0-release-2007-9-20\NVelocity.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Mobile" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\css\colibri.css" />
+    <Content Include="Content\css\datepicker.css" />
+    <Content Include="Content\css\shCore.css" />
+    <Content Include="Content\css\shThemeDefault.css" />
+    <Content Include="Content\images\apply.png" />
+    <Content Include="Content\images\arrow_blank.png" />
+    <Content Include="Content\images\arrow_down.png" />
+    <Content Include="Content\images\arrow_up.png" />
+    <Content Include="Content\images\audit.png" />
+    <Content Include="Content\images\calendar.png" />
+    <Content Include="Content\images\cat-bg.png" />
+    <Content Include="Content\images\check-on.png" />
+    <Content Include="Content\images\comments-b.png" />
+    <Content Include="Content\images\comments.png" />
+    <Content Include="Content\images\comparison.png" />
+    <Content Include="Content\images\dashboard.png" />
+    <Content Include="Content\images\drag.png" />
+    <Content Include="Content\images\edit-b.png" />
+    <Content Include="Content\images\edit.png" />
+    <Content Include="Content\images\entries-b.png" />
+    <Content Include="Content\images\entries.png" />
+    <Content Include="Content\images\executions.png" />
+    <Content Include="Content\images\failure.png" />
+    <Content Include="Content\images\footer-bg.png" />
+    <Content Include="Content\images\grid.png" />
+    <Content Include="Content\images\head-bg.png" />
+    <Content Include="Content\images\head-logo.png" />
+    <Content Include="Content\images\highlighter\help.png" />
+    <Content Include="Content\images\highlighter\magnifier.png" />
+    <Content Include="Content\images\highlighter\page_white_code.png" />
+    <Content Include="Content\images\highlighter\page_white_copy.png" />
+    <Content Include="Content\images\highlighter\printer.png" />
+    <Content Include="Content\images\import.png" />
+    <Content Include="Content\images\indicator.gif" />
+    <Content Include="Content\images\magnifier.png" />
+    <Content Include="Content\images\menu_off.png" />
+    <Content Include="Content\images\migration_warning.png" />
+    <Content Include="Content\images\msg-error.png" />
+    <Content Include="Content\images\msg-std.png" />
+    <Content Include="Content\images\package.png" />
+    <Content Include="Content\images\page-bg.png" />
+    <Content Include="Content\images\projects.png" />
+    <Content Include="Content\images\rollback.png" />
+    <Content Include="Content\images\success.png" />
+    <Content Include="Content\images\tab-bg.png" />
+    <Content Include="Content\images\tab-c-l.png" />
+    <Content Include="Content\images\tab-c-r.png" />
+    <Content Include="Content\images\tab-l-l.png" />
+    <Content Include="Content\images\tab-l-r.png" />
+    <Content Include="Content\images\tab-n-l.png" />
+    <Content Include="Content\images\tab-n-r.png" />
+    <Content Include="Content\javascripts\builder.js" />
+    <Content Include="Content\javascripts\colibri.js" />
+    <Content Include="Content\javascripts\controls.js" />
+    <Content Include="Content\javascripts\datepicker.js" />
+    <Content Include="Content\javascripts\dragdrop.js" />
+    <Content Include="Content\javascripts\effects.js" />
+    <Content Include="Content\javascripts\highlighter\clipboard.swf" />
+    <Content Include="Content\javascripts\highlighter\shBrushAS3.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushBash.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushColdFusion.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushCpp.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushCSharp.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushCss.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushDelphi.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushDiff.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushErlang.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushGroovy.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushJava.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushJavaFX.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushJScript.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushPerl.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushPhp.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushPlain.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushPowerShell.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushPython.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushRuby.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushScala.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushSql.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushVb.js" />
+    <Content Include="Content\javascripts\highlighter\shBrushXml.js" />
+    <Content Include="Content\javascripts\highlighter\shCore.js" />
+    <Content Include="Content\javascripts\highlighter\shLegacy.js" />
+    <Content Include="Content\javascripts\prototype-extensions.js" />
+    <Content Include="Content\javascripts\prototype.js" />
+    <Content Include="Content\javascripts\scriptaculous.js" />
+    <Content Include="Content\javascripts\slider.js" />
+    <Content Include="Content\javascripts\sound.js" />
+    <Content Include="Content\javascripts\unittest.js" />
+    <Content Include="Default.aspx" />
+    <Content Include="Global.asax" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Components\InfoBoxComponent.cs" />
+    <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\ExecutionsController.cs" />
+    <Compile Include="Controllers\MigrationLinesController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InstancesController.cs" />
+    <Compile Include="Controllers\MigrationsController.cs" />
+    <Compile Include="Controllers\ProjectsController.cs" />
+    <Compile Include="Default.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Filters\CurrentProjectFilter.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\AuditHelper.cs" />
+    <Compile Include="Helpers\DateHelper.cs" />
+    <Compile Include="Helpers\FormatHelper.cs" />
+    <Compile Include="Helpers\OrderHelper.cs" />
+    <Compile Include="Helpers\PageLinksHelper.cs" />
+    <Compile Include="Helpers\PostHelper.cs" />
+    <Compile Include="Interceptors\AuditFacility.cs" />
+    <Compile Include="Interceptors\AuditInterceptor.cs" />
+    <Compile Include="Interceptors\IAuditable.cs" />
+    <Compile Include="Models\AuditableBase.cs" />
+    <Compile Include="Models\DBAppliedMigration.cs" />
+    <Compile Include="Models\Execution.cs" />
+    <Compile Include="Models\Instance.cs" />
+    <Compile Include="Models\Migration.cs" />
+    <Compile Include="Models\MigrationLine.cs" />
+    <Compile Include="Models\Project.cs" />
+    <Compile Include="Models\ProjectHistoryStep.cs" />
+    <Compile Include="Models\Search\ExecutionSearch.cs" />
+    <Compile Include="Models\Search\ProjectHistoryStepSearch.cs" />
+    <Compile Include="Models\Search\IModelSearch.cs" />
+    <Compile Include="Models\Search\MigrationSearch.cs" />
+    <Compile Include="Models\Search\ModelSearchBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IApplicationContext.cs" />
+    <Compile Include="Services\IClock.cs" />
+    <Compile Include="Services\IConnectionStringProvider.cs" />
+    <Compile Include="Services\IDBMigrationTablesManager.cs" />
+    <Compile Include="Services\IMigrationExecutor.cs" />
+    <Compile Include="Services\Impl\HttpApplicationContext.cs" />
+    <Compile Include="Services\Impl\SqlServer\SqlServerDBMigrationTablesManager.cs" />
+    <Compile Include="Services\Impl\SqlServer\SqlServerIntegratedSecurityConnectionStringProvider.cs" />
+    <Compile Include="Services\Impl\SqlServer\SqlServerMigrationExecutor.cs" />
+    <Compile Include="Services\Impl\SqlServer\SqlServerNamedUserConnectionStringProvider.cs" />
+    <Compile Include="Services\Impl\SqlServer\SqlServerScriptsGenerator.cs" />
+    <Compile Include="Services\Impl\SystemClock.cs" />
+    <Compile Include="Services\IScriptsGenerator.cs" />
+    <Compile Include="Validators\NotSameEnumValueValidator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WebAppContainer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Views\Components\InfoBoxComponent\default.vm" />
+    <None Include="Views\Executions\filters.vm" />
+    <None Include="Views\Executions\index.vm" />
+    <None Include="Views\Executions\show.vm" />
+    <None Include="Views\Home\index.vm" />
+    <None Include="Views\Instances\compare.vm" />
+    <None Include="Views\Instances\selectcompare.vm" />
+    <None Include="Views\Instances\edit.vm" />
+    <None Include="Views\Instances\form.vm" />
+    <None Include="Views\Instances\index.vm" />
+    <None Include="Views\Instances\new.vm" />
+    <None Include="Views\Instances\show.vm" />
+    <None Include="Views\layouts\default.vm" />
+    <None Include="Views\MigrationLines\edit.vm" />
+    <None Include="Views\MigrationLines\form.vm" />
+    <None Include="Views\MigrationLines\new.vm" />
+    <None Include="Views\MigrationLines\show.vm" />
+    <None Include="Views\Migrations\edit.vm" />
+    <None Include="Views\Migrations\execute.vm" />
+    <None Include="Views\Migrations\filters.vm" />
+    <None Include="Views\Migrations\form.vm" />
+    <None Include="Views\Migrations\index.vm" />
+    <None Include="Views\Migrations\instance-apply.vm" />
+    <None Include="Views\Migrations\instance-rollback.vm" />
+    <None Include="Views\Migrations\lines.vm" />
+    <None Include="Views\Migrations\new.vm" />
+    <None Include="Views\Migrations\selectinstance.vm" />
+    <None Include="Views\Migrations\show.vm" />
+    <None Include="Views\Projects\historyFilters.vm" />
+    <None Include="Views\Projects\new.vm" />
+    <None Include="Views\Projects\edit.vm" />
+    <None Include="Views\Projects\form.vm" />
+    <None Include="Views\Projects\index.vm" />
+    <None Include="Views\Projects\show.vm" />
+    <None Include="Views\rescues\generalerror.vm" />
+    <None Include="Views\shared\messages.vm" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v8.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>False</AutoAssignPort>
+          <DevelopmentServerPort>1139</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

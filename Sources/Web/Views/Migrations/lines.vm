@@ -1,0 +1,56 @@
+<p>Lines: <strong>$migration.Lines.Count</strong></p>
+
+#if($migration.Lines.Count > 0)
+	<table class="clear">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<th>Order</th>
+				<th>Action</th>
+				<th>ObjectType</th>
+				<th>ObjectName</th>
+				<th>Script</th>
+				<th>Audit</th>
+				<th>Actions</th>
+			</tr>
+			#foreach($line in $migration.Lines)
+				<tr class="line offline">
+					<td class="nowrap">
+						$line.Id
+					</td>
+					<td class="nowrap">
+						#if($velocityCount != $migration.Lines.Count)
+							<a href="#" onclick="moveLine($line.Id, 'down');"><img src="/Content/images/arrow_down.png" /></a>
+						#else
+							<img src="/Content/images/arrow_blank.png" />
+						#end
+						#if($velocityCount != 1)
+							<a href="#" onclick="moveLine($line.Id, 'up');"><img src="/Content/images/arrow_up.png" /></a>
+						#else
+							<img src="/Content/images/arrow_blank.png" />
+						#end
+					</td>
+					<td class="nowrap cursor-pointer" onclick="showLine($line.Id);">
+						$line.Action
+					</td>
+					<td class="nowrap cursor-pointer" onclick="showLine($line.Id);">
+						$line.ObjectType
+					</td>
+					<td class="nowrap cursor-pointer" onclick="showLine($line.Id);">
+						$line.ObjectName
+					</td>
+					<td class="maximal cursor-pointer" onclick="showLine($line.Id);">
+						$line.ShortenMigrateScript
+					</td>
+					<td class="nowrap">
+						$AuditHelper.AuditIcon($line)
+					</td>
+					<td class="nowrap">
+						<a href="#" onclick="editLine($line.Id);" class="button">Edit</a>
+						<a href="#" onclick="deleteLine($line.Id);">Delete</a>
+					</td>
+				</tr>
+			#end
+		</tbody>
+	</table>
+#end

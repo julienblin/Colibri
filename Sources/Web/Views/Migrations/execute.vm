@@ -1,0 +1,33 @@
+<h2>$currentproject.Name > Applying migration $migration.Id to $instance.FullName</h2>
+
+<p id='execution-log'>
+	$FormatHelper.ConvertNewLines($execution.ExecutionLog)
+</p>
+
+<img id="img-success" src="/Content/images/success.png" style="display: none;" />
+<img id="img-failure" src="/Content/images/failure.png" style="display: none;" />
+
+#capturefor(javascript)
+	showIndicator();
+	
+	function updateLog() {
+		new Ajax.Request('/executions/get.colibri?id=$execution.Id&cacheRnd=' + dateTimeRandom(), {
+			onSuccess:function(request) {
+				$('execution-log').update(request.responseJSON.ExecutionLog.replace(/\n/gi, "<br />\n"));
+				if(request.responseJSON.ExecutionState == "Pending") {
+					setTimeout('updateLog();', 1000);
+					setTimeout('showIndicator();', 10);
+				} else {
+					if(request.responseJSON.ExecutionState == "Completed") {
+						$('img-success').show();
+					}
+					if(request.responseJSON.ExecutionState == "OnError") {
+						$('img-failure').show();
+					}
+				}
+			}
+		});
+	}
+	
+	setTimeout ('updateLog();', 1000);
+#end

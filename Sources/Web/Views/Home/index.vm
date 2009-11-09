@@ -1,0 +1,48 @@
+<h2>$currentproject.Name > Dashboard</h2>
+
+<div id="dashboard-main">
+	<div id="icons">
+		<p>
+			<a href="/migrations/new.colibri">
+				<img src="/Content/images/edit-b.png"/>
+            </a>
+            <span>
+              <a href="/migrations/new.colibri">New migration</a>
+            </span>
+		</p>
+		<p>
+			<a href="/migrations/index.colibri">
+				<img src="/Content/images/entries-b.png"/>
+            </a>
+            <span>
+              <a href="/migrations/index.colibri">Migrations ($nummigrations)</a>
+            </span>
+		</p>
+		<p>
+			<a href="/instances/index.colibri">
+				<img src="/Content/images/comments-b.png"/>
+            </a>
+            <span>
+              <a href="/instances/index.colibri">Instances ($numinstances)</a>
+            </span>
+		</p>
+	</div>
+</div>
+
+#if($lasthistory.Length > 0)
+	<div id="dashboard-items">
+		<div>
+			<h3>Last actions</h3>
+			<dl id="news">
+				#foreach($historyStep in $lasthistory)
+					<dt>
+						$historyStep.Description
+					</dt>
+					<dd>
+						<p>By $historyStep.By @ $DateFormatHelper.ToShortDateTime($historyStep.At)</p>
+					</dd>
+				#end
+			</dl>
+		</div>
+	</div>
+#end

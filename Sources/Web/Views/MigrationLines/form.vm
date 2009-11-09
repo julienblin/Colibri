@@ -1,0 +1,45 @@
+$FormHelper.HiddenField("line.id")
+$FormHelper.HiddenField("line.Migration.Id")
+<div id="entry-sidebar">
+	<fieldset>
+		<legend>Object</legend>
+		<div>
+			$FormHelper.LabelFor("line.Action", "Action")
+			$FormHelper.Select("line.Action", $FormHelper.EnumToPairs($dbActions), "%{value='First', text='Second', class='required', onchange='updateInstructions();'}")
+		</div>
+		<div>
+			$FormHelper.LabelFor("line.ObjectType", "Object type")
+			$FormHelper.Select("line.ObjectType", $FormHelper.EnumToPairs($dbObjectTypes), "%{value='First', text='Second', class='required', onchange='updateInstructions();'}")
+		</div>
+		<div>
+			$FormHelper.LabelFor("line.ObjectName", "Object name")
+			$FormHelper.TextField("line.ObjectName")
+		</div>
+	</fieldset>
+	<fieldset id="instructions" style="display: none;">
+		<legend>Instructions</legend>
+		<div id="instructions-content">
+		</div>
+	</fieldset>
+</div>
+<div id="entry-content">
+	<fieldset>
+		<legend>Scripts</legend>
+		<div class="col">
+			$Form.Submit("Save")
+			<a href="#" onClick="$('migrationline-form').update('');">Cancel</a>
+        </div>
+		<div>
+			$FormHelper.LabelFor("line.MigrateScript", "Migrate script")
+			$FormHelper.TextArea("line.MigrateScript", "%{class='big sql'}")
+		</div>
+		<div>
+			$FormHelper.LabelFor("line.RollbackScript", "Rollback script")
+			$FormHelper.TextArea("line.RollbackScript", "%{class='big sql'}")
+		</div>
+		<div class="col">
+			$Form.Submit("Save")
+			<a href="#" onClick="$('migrationline-form').update('');">Cancel</a>
+        </div>
+     </fieldset>
+</div>

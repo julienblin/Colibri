@@ -1,0 +1,23 @@
+<div id="entry-content">
+	$FormHelper.HiddenField("instance.id")
+	$FormHelper.HiddenField("instance.Project.Id")
+	<fieldset>
+		<legend>Informations</legend>
+		<div>
+			$FormHelper.LabelFor("instance.ServerName", "Server Name")
+			$FormHelper.TextField("instance.ServerName", "%{class='maximal'}")
+		</div>
+		<div>
+			$FormHelper.LabelFor("instance.DatabaseName", "Database Name")
+			$FormHelper.TextField("instance.DatabaseName", "%{class='maximal'}")
+		</div>
+		<div>
+			$FormHelper.LabelFor("instance.instanceType", "Type")
+			$FormHelper.Select("instance.instanceType", $FormHelper.EnumToPairs($instanceTypes), $DictHelper.Create("value=First", "text=Second"))
+		</div>
+		<div class="col">
+			$Form.Submit("Save")
+			<a href="/instances/index.colibri">Cancel</a>
+        </div>
+     </fieldset>
+</div>

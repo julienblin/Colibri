@@ -1,0 +1,44 @@
+<h2>$currentproject.Name > Instances</h2>
+<p>
+	<strong><a href="/instances/new.colibri">New instance</a></strong>
+</p>
+
+<p>Instances: <strong>$instances.Length</strong></p>
+
+#if($instances.Length > 0)
+	<table class="clear">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<th>Server</th>
+				<th>Database</th>
+				<th>Type</th>
+				<th>Audit</th>
+				<th>Actions</th>
+			</tr>
+			#foreach($instance in $instances)
+				<tr class="line offline">
+					<td class="nowrap">
+						$instance.Id
+					</td>
+					<td class="nowrap">
+						<a href="/instances/show.colibri?id=$instance.Id">$instance.ServerName</a>
+					</td>
+					<td class="maximal">
+						<a href="/instances/show.colibri?id=$instance.Id">$instance.DatabaseName</a>
+					</td>
+					<td class="nowrap">
+						$instance.InstanceType
+					</td>
+					<td class="nowrap center-content">
+						$AuditHelper.AuditIcon($instance)
+					</td>
+					<td class="nowrap">
+						<a href="/instances/edit.colibri?id=$instance.Id" class="button">Edit</a>
+						${PostHelper.LinkConfirm("Delete", "Do you really want to delete instance $instance.FullName?", "/instances/delete.colibri", "%{id=$instance.Id}")}
+					</td>
+				</tr>
+			#end
+		</tbody>
+	</table>
+#end

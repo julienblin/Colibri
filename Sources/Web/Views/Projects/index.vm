@@ -1,0 +1,34 @@
+<h2>Projects</h2>
+<p>
+	<strong><a href="/projects/new.colibri">New project</a></strong>
+</p>
+
+<p>Projects: <strong>$projects.Length</strong></p>
+
+<table class="clear">
+	<tbody>
+		<tr>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Audit</th>
+			<th>Actions</th>
+		</tr>
+		#foreach($project in $projects)
+			<tr class="line offline">
+				<td class="nowrap">
+					$project.Id
+				</td>
+				<td class="maximal">
+					<a href="/projects/show.colibri?id=$project.Id">$project.Name</a>
+				</td>
+				<td class="nowrap center-content">
+					$AuditHelper.AuditIcon($project)
+				</td>
+				<td class="nowrap">
+					<a href="/projects/edit.colibri?id=$project.Id" class="button">Edit</a>
+					${PostHelper.LinkConfirm("Delete", "Do you really want to delete project $project.Name?", "/projects/delete.colibri", "%{id=$project.Id}")}
+				</td>
+			</tr>
+		#end
+	</tbody>
+</table>

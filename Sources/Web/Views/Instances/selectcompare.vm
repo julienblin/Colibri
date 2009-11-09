@@ -1,0 +1,61 @@
+<h2>$currentproject.Name > Instances > Compare</h2>
+
+<p>Instances: <strong>$instances.Length</strong></p>
+
+$Form.FormTag("%{action='compare', onSubmit='return checkTwoSelected();'}")
+	#if($instances.Length > 0)
+		<table class="clear">
+			<tbody>
+				<tr>
+					<th>Select</th>
+					<th>Id</th>
+					<th>Server</th>
+					<th>Database</th>
+					<th>Type</th>
+					<th>Audit</th>
+				</tr>
+				#foreach($instance in $instances)
+					<tr class="line offline">
+						<td class="nowrap center-content">
+							<input type="checkbox" class="compareChkbox" value="$instance.Id" name="ids[]"/>
+						</td>
+						<td class="nowrap">
+							$instance.Id
+						</td>
+						<td class="nowrap">
+							<a href="/instances/show.colibri?id=$instance.Id">$instance.ServerName</a>
+						</td>
+						<td class="maximal">
+							<a href="/instances/show.colibri?id=$instance.Id">$instance.DatabaseName</a>
+						</td>
+						<td class="nowrap">
+							$instance.InstanceType
+						</td>
+						<td class="nowrap center-content">
+							$AuditHelper.AuditIcon($instance)
+						</td>
+					</tr>
+				#end
+			</tbody>
+		</table>
+	#end
+	$Form.Submit("Compare")
+$Form.EndFormTag()
+
+#capturefor(javascript)
+	function checkTwoSelected() {
+		var numChecked = 0;
+		$$('.compareChkbox').each(function(chkBox, index) {
+			if(chkBox.checked) {
+				++numChecked;
+			}
+		});
+		
+		if(numChecked == 2) {
+			return true;
+		} else {
+			alert('You must select two instances');
+			return false;
+		}
+	}
+#end

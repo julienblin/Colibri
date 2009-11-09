@@ -1,0 +1,25 @@
+$Form.FormTag("%{action='index', method='get'}")
+	<fieldset>
+		<legend>Filters</legend>
+			<div class="two-cols">
+				<div class="col">
+					$FormHelper.LabelFor("search.Id", "Id")
+					$FormHelper.TextField("search.Id", "%{ size=30 }")
+					<br /><br />
+					$FormHelper.LabelFor("search.DescriptionLike", "Description")
+					$FormHelper.TextField("search.DescriptionLike", "%{ size=50 }")
+				</div>
+				<div class="col">
+					$FormHelper.LabelFor("search.UpdatedBy", "Updated by")
+					$FormHelper.Select("search.UpdatedBy", $updatedByList)
+					<br /><br />
+					$FormHelper.LabelFor("search.InProduction", "In production?")
+					$FormHelper.Select("search.InProduction", $FormHelper.EnumToPairs($inProductionFilterTypes), $DictHelper.Create("value=First", "text=Second"))
+				</div>
+			</div>
+		<div class="clear">
+			<br />
+			$Form.Submit("Filter")
+		</div>
+	</fieldset>
+$Form.EndFormTag()

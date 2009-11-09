@@ -1,0 +1,7 @@
+<h2>Projects > New</h2>
+
+<div id="edit-entry">
+	$Form.FormTag("%{action='create', immediate='true', useLabels='true'}")
+		#parse ("Projects/form.vm")
+	$Form.EndFormTag()
+</div>

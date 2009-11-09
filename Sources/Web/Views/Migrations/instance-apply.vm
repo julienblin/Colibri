@@ -1,0 +1,30 @@
+<div id="apply-$instance.Id" style="display: none;">
+	$Form.FormTag("%{action='execute', onclick='return confirm(\'Are you sure you want to apply migration to $instance.FullName ?\');'}")
+		$FormHelper.HiddenField("migrationId", $migration.Id)
+		$FormHelper.HiddenField("instanceId", $instance.Id)
+		$FormHelper.HiddenField("action", $action)
+		$Form.Submit("Apply!")
+	$Form.EndFormTag()
+</div>
+<div id="no-$instance.Id" style="display: none; color: green">
+	Migration already applied.
+</div>
+<div id="error-$instance.Id" style="display: none; color: red">
+	Error retreiving instance information!
+</div>
+<script type="text/javascript">
+	new Ajax.Request('/migrations/ismigrationapplicable.colibri?migrationId=$migration.Id&instanceId=$instance.Id&cacheRnd=' + dateTimeRandom(), {
+		onSuccess:function(request) {
+			$('indicator-$instance.Id').hide();
+			if(request.responseText == "YES"){
+				$('apply-$instance.Id').show();
+			}
+			if(request.responseText == "NO"){
+				$('no-$instance.Id').show();
+			}
+			if(request.responseText == "ERROR"){
+				$('error-$instance.Id').show();
+			}	 
+		}
+	});
+</script>

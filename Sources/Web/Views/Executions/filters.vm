@@ -1,0 +1,32 @@
+$Form.FormTag("%{action='index', method='get'}")
+	<fieldset>
+		<legend>Filters</legend>
+			<div class="two-cols">
+				<div class="col">
+					$FormHelper.LabelFor("search.Id", "Id")
+					$FormHelper.TextField("search.Id", "%{ size=30 }")
+					<br /><br />
+					$FormHelper.LabelFor("search.ExecutionState", "State")
+					<select name="search.ExecutionState" id="search_ExecutionState">
+						<option value=""></option>
+						#foreach($state in $FormHelper.EnumToPairs($executionStates))
+							<option value="$state.First">$state.Second</option>
+						#end
+					</select>
+				</div>
+				<div class="col">
+					$FormHelper.LabelFor("search.InstanceId", "Instance")
+					<select name="search.InstanceId" id="search_InstanceId">
+						<option value=""></option>
+						#foreach($instance in $instances)
+							<option value="$instance.Id">$instance.FullName</option>
+						#end
+					</select>
+				</div>
+			</div>
+		<div class="clear">
+			<br />
+			$Form.Submit("Filter")
+		</div>
+	</fieldset>
+$Form.EndFormTag()

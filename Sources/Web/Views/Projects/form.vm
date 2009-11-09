@@ -1,0 +1,14 @@
+<div id="entry-content">
+	$FormHelper.HiddenField("project.id")
+	<fieldset>
+		<legend>Informations</legend>
+		<div>
+			$FormHelper.LabelFor("project.name", "Name")
+			$FormHelper.TextField("project.name", "%{class='maximal'}")
+		</div>
+		<div class="col">
+			$Form.Submit("Save")
+			<a href="/projects/index.colibri">Cancel</a>
+        </div>
+     </fieldset>
+</div>

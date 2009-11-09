@@ -1,0 +1,50 @@
+<h2>$currentproject.Name > Migrations</h2>
+<p>
+	<strong><a href="/migrations/new.colibri">New migration</a></strong>
+</p>
+
+#parse ("Migrations/filters.vm")
+
+$PageLinksHelper.Show($migrations)
+
+#if($migrations.TotalItems > 0)
+	<table class="clear">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<th>$OrderHelper.OrderLink("Description")</th>
+				<th>$OrderHelper.OrderLink("Production?", "AppliedInProductionAt")</th>
+				<th>Lines</th>
+				<th>Audit</th>
+				<th>Actions</th>
+			</tr>
+			#foreach($migration in $migrations)
+				<tr class="line offline">
+					<td class="nowrap">
+						$migration.Id
+					</td>
+					<td class="maximal">
+						<a href="/migrations/show.colibri?id=$migration.Id">$migration.Description</a>
+					</td>
+					<td class="nowrap center-content">
+						#if($migration.AppliedInProductionAt.HasValue)
+							$DateFormatHelper.ToShortDateTime($migration.AppliedInProductionAt)
+						#else
+							No
+						#end
+					</td>
+					<td class="nowrap center-content">
+						$migration.Lines.Count
+					</td>
+					<td class="nowrap center-content">
+						$AuditHelper.AuditIcon($migration)
+					</td>
+					<td class="nowrap">
+						<a href="/migrations/edit.colibri?id=$migration.Id" class="button">Edit</a>
+						${PostHelper.LinkConfirm("Delete", "Do you really want to delete migration $migration.Id?", "/migrations/delete.colibri", "%{id=$migration.Id}")}
+					</td>
+				</tr>
+			#end
+		</tbody>
+	</table>
+#end

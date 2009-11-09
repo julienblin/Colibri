@@ -1,0 +1,25 @@
+$Form.FormTag("%{action='show', method='get'}")
+	$FormHelper.HiddenField("id")
+	<fieldset>
+		<legend>Filters</legend>
+			<div class="two-cols">
+				<div class="col">
+					$FormHelper.LabelFor("search.DescriptionLike", "Description")
+					$FormHelper.TextField("search.DescriptionLike", "%{ size=50 }")
+					<br /><br />
+					$FormHelper.LabelFor("search.StartAt", "Between")
+					$DateHelper.CalendarTextField("search.StartAt")
+					and
+					$DateHelper.CalendarTextField("search.EndAt")
+				</div>
+				<div class="col">
+					$FormHelper.LabelFor("search.By", "By")
+					$FormHelper.Select("search.By", $byList)
+				</div>
+			</div>
+		<div class="clear">
+			<br />
+			$Form.Submit("Filter")
+		</div>
+	</fieldset>
+$Form.EndFormTag()

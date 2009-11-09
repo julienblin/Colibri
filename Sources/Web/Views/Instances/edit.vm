@@ -1,0 +1,7 @@
+<h2>$currentproject.Name > Instances > Edit $instance.FullName</h2>
+
+<div id="edit-entry">
+    $Form.FormTag("%{action='update', immediate='true', useLabels='true'}")
+		#parse ("Instances/form.vm")
+	$Form.EndFormTag()
+</div>

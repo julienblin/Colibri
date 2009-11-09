@@ -1,0 +1,57 @@
+<h2>$currentproject.Name > Executions</h2>
+
+#parse ("Executions/filters.vm")
+
+$PageLinksHelper.Show($executions)
+
+#if($executions.TotalItems > 0)
+	<table class="clear">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<th>$OrderHelper.OrderLink("At")</th>
+				<th>$OrderHelper.OrderLink("By")</th>
+				<th>State</th>
+				<th>Instance</th>
+				<th>Migration</th>
+				<th>Actions</th>
+			</tr>
+			#foreach($execution in $executions)
+				<tr class="line offline">
+					<td class="nowrap cursor-pointer" onclick="show($execution.Id);">
+						$execution.Id
+					</td>
+					<td class="nowrap cursor-pointer" onclick="show($execution.Id);">
+						$DateFormatHelper.ToShortDateTime($execution.At)
+					</td>
+					<td class="nowrap cursor-pointer" onclick="show($execution.Id);">
+						$execution.By
+					</td>
+					<td class="nowrap cursor-pointer" onclick="show($execution.Id);">
+						$execution.ExecutionState
+					</td>
+					<td class="nowrap cursor-pointer" onclick="show($execution.Id);">
+						$execution.Instance.FullName
+					</td>
+					<td class="maximal cursor-pointer" onclick="show($execution.Id);">
+						$execution.Migration.Id - $execution.Migration.Description
+					</td>
+					<td class="nowrap">
+						#if($execution.Pending)
+							$Form.FormTag("%{action='declarestale', onclick='return confirm(\'Are you sure you want to declare execution stale? This will put the status to OnError.\');'}")
+								$FormHelper.HiddenField("id", $execution.Id)
+								$Form.Submit("Declare Stale")
+							$Form.EndFormTag()
+						#end
+					</td>
+				</tr>
+			#end
+		</tbody>
+	</table>
+#end
+
+#capturefor(javascript)
+	function show(executionId) {
+		window.location = '/executions/show.colibri?id=' + executionId;
+	}
+#end

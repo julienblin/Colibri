@@ -1,0 +1,10 @@
+#if($message)
+	<p class="message">
+		<strong>$message</strong>
+	</p>
+#end
+#if($error)
+	<p class="error">
+		<strong>$error</strong>
+	</p>
+#end

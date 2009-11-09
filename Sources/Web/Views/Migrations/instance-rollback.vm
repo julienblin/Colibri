@@ -1,0 +1,30 @@
+<div id="rollback-$instance.Id" style="display: none;">
+	$Form.FormTag("%{action='execute', onclick='return confirm(\'Are you sure you want to rollback migration to $instance.FullName ?\');'}")
+		$FormHelper.HiddenField("migrationId", $migration.Id)
+		$FormHelper.HiddenField("instanceId", $instance.Id)
+		$FormHelper.HiddenField("action", $action)
+		$Form.Submit("Rollback!")
+	$Form.EndFormTag()
+</div>
+<div id="no-$instance.Id" style="display: none; color: green">
+	Migration not applied.
+</div>
+<div id="error-$instance.Id" style="display: none; color: red">
+	Error retreiving instance information!
+</div>
+<script type="text/javascript">
+	new Ajax.Request('/migrations/ismigrationrollbackable.colibri?migrationId=$migration.Id&instanceId=$instance.Id&cacheRnd=' + dateTimeRandom(), {
+		onSuccess:function(request) {
+			$('indicator-$instance.Id').hide();
+			if(request.responseText == "YES"){
+				$('rollback-$instance.Id').show();
+			}
+			if(request.responseText == "NO"){
+				$('no-$instance.Id').show();
+			}
+			if(request.responseText == "ERROR"){
+				$('error-$instance.Id').show();
+			}	 
+		}
+	});
+</script>

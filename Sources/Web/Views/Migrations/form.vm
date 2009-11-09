@@ -1,0 +1,15 @@
+<div id="entry-content">
+	$FormHelper.HiddenField("migration.id")
+	$FormHelper.HiddenField("migration.Project.Id")
+	<fieldset>
+		<legend>Informations</legend>
+		<div>
+			$FormHelper.LabelFor("migration.Description", "Description")
+			$FormHelper.TextArea("migration.Description", "%{class='maximal'}")
+		</div>
+		<div class="col">
+			$Form.Submit("Save")
+			<a href="/migrations/index.colibri">Cancel</a>
+        </div>
+     </fieldset>
+</div>

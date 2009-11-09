@@ -1,0 +1,6 @@
+#parse('shared/messages.vm')
+<div id="edit-entry">
+	$Form.FormTag("%{action='create', immediate='true', useLabels='true', onSubmit='lineFormSubmit(this); return false;'}")
+		#parse ("MigrationLines/form.vm")
+	$Form.EndFormTag()
+</div>

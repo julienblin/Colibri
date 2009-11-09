@@ -1,0 +1,18 @@
+<form action="$siteRoot" method="post">
+  <div>
+    Projects :
+    <select id="selectProjects" name="selectProjects">
+      #foreach($project in $projects)
+		#if(($currentprojectId) && ($project.Id == $currentprojectId))
+			<option value='$project.Id' selected="selected">$project.Name</option>
+		#else
+			<option value='$project.Id'>$project.Name</option>
+		#end
+      #end
+    </select>
+    User :
+    <strong>
+      $username
+    </strong>
+  </div>
+</form>

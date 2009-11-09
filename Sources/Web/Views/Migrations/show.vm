@@ -1,0 +1,103 @@
+<h2>$currentproject.Name > Migrations > $migration.Id</h2>
+<h3>$migration.Description</h3>
+
+<a href="/migrations/selectinstance.colibri?id=$migration.Id&action=Apply" id="apply-migration" class="big-button"><img src="/Content/images/apply.png" />&nbsp;Apply</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/migrations/selectinstance.colibri?id=$migration.Id&action=Rollback" id="rollback-migration" class="big-button"><img src="/Content/images/rollback.png" />&nbsp;Rollback</a>
+
+<br class="clear" />
+<br />
+
+<div id="migrationlines">
+	#parse ("Migrations/lines.vm")
+</div>
+
+<a href="#" id="new-migrationline" class="button">New line</a>
+
+<br class="clear" />
+<br />
+<hr />
+<br class="clear" />
+
+
+<div id="migrationline-form">
+	
+</div>
+
+#capturefor(javascript)
+	
+	$('new-migrationline').observe('click', function(event) {
+		new Ajax.Updater('migrationline-form', '/migrationlines/new.colibri?migrationId=$migration.Id&cacheRnd=' + dateTimeRandom(), { method: 'get' }); 
+	});
+	
+	function lineFormSubmittedSuccess(request) {
+		alert(request);
+	}
+	
+	function lineFormSubmit(form) {
+		new Ajax.Request(form.action, {
+			onSuccess:function(request) {
+				$('migrationline-form').update(request.responseText);
+				new Ajax.Updater('migrationlines', '/migrations/lines.colibri?id=$migration.Id&cacheRnd=' + dateTimeRandom(), { method: 'get' }); 
+			},
+			parameters:Form.serialize(form)
+		});
+	}
+	
+	function showLine(lineId){
+		new Ajax.Updater('migrationline-form', '/migrationlines/show.colibri?id='+lineId + '&cacheRnd=' + dateTimeRandom(), {
+				method: 'get',
+				onComplete: function(request) { 
+					SyntaxHighlighter.highlight();
+				}
+			});
+	}
+	
+	function editLine(lineId){
+		new Ajax.Updater('migrationline-form',
+			'/migrationlines/edit.colibri?id='+lineId + '&cacheRnd=' + dateTimeRandom(),
+			{
+				method: 'get',
+				onComplete: function(request) {
+					updateInstructions();
+				}
+			}); 
+	}
+	
+	function deleteLine(lineId){
+		if(confirm('Are you sure you want to delete the line?')){
+			new Ajax.Request('/migrationlines/delete.colibri', {
+				onSuccess:function(request) {
+					new Ajax.Updater('migrationlines', '/migrations/lines.colibri?id=$migration.Id&cacheRnd=' + dateTimeRandom(), { method: 'get' }); 
+				},
+				parameters:'id='+lineId + '&cacheRnd' + dateTimeRandom()
+			});
+		}
+	}
+	
+	function moveLine(lineId, direction){
+		new Ajax.Request('/migrationlines/moveline.colibri', {
+			onSuccess:function(request) {
+				new Ajax.Updater('migrationlines', '/migrations/lines.colibri?id=$migration.Id&cacheRnd=' + dateTimeRandom(), { method: 'get' }); 
+			},
+			parameters:'id='+lineId + '&direction=' + direction + '&cacheRnd' + dateTimeRandom()
+		});
+	}
+	
+	function updateInstructions() {
+		var actionValue = $('line_Action').value;
+		var objectTypeValue = $('line_ObjectType').value;
+		new Ajax.Request('/migrationlines/instructions.colibri?objectType=' + objectTypeValue + '&action='+actionValue+'&cacheRnd=' + dateTimeRandom(), {
+			onSuccess:function(request) {
+				if((request.responseText) && (request.responseText != '')) {
+					$('instructions-content').update(request.responseText.replace(/\n/gi, "<br />\n"));
+					$('instructions').show();
+					Effect.Pulsate('instructions', { pulses: 3 });
+				} else {
+					$('instructions').hide();
+				}
+			}
+		});
+	}
+	
+#end

@@ -1,0 +1,7 @@
+<h2>$currentproject.Name > Migrations > New</h2>
+
+<div id="edit-entry">
+	$Form.FormTag("%{action='create', immediate='true', useLabels='true'}")
+		#parse ("Migrations/form.vm")
+	$Form.EndFormTag()
+</div>

@@ -1,0 +1,47 @@
+<h2>$currentproject.Name > Migrations > $migration.Id > Apply Migration (Select instance)</h2>
+
+#if($instances.Count > 0)
+	<table class="clear">
+		<tbody>
+			<tr>
+				<th></th>
+				<th>Id</th>
+				<th>Type</th>
+				<th>Server</th>
+				<th>Database</th>
+			</tr>
+			#foreach($instance in $instances)
+				<tr class="line offline">
+					<td class="nowrap">
+						#if($migration.CanApplyTo($instance))
+							<div id="indicator-$instance.Id">
+								<img src="/Content/images/indicator.gif" />
+								Retreiving instance history...
+							</div>
+							#if($action=='Apply')
+								#parse('Migrations/instance-apply.vm')
+							#end
+							#if($action=='Rollback')
+								#parse('Migrations/instance-rollback.vm')
+							#end
+						#else
+							<strong style="color: red;">Pending migration !</strong>
+						#end
+					</td>
+					<td class="nowrap align-middle">
+						$instance.Id
+					</td>
+					<td class="nowrap align-middle">
+						$instance.InstanceType
+					</td>
+					<td class="nowrap align-middle">
+						<strong>$instance.ServerName</strong>
+					</td>
+					<td class="maximal align-middle">
+						$instance.DatabaseName
+					</td>
+				</tr>
+			#end
+		</tbody>
+	</table>
+#end
